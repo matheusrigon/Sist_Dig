@@ -1,0 +1,49 @@
+module calcula(
+	input [10:0] ax,
+	input [10:0] ay,
+	input [10:0] bx,
+	input [10:0] by,
+	input [10:0] cx,
+	input [10:0] cy
+	
+	output s;
+);
+
+	wire signed [11:0] s1;
+	wire signed [11:0] s2;
+	wire signed [11:0] s3;
+	wire signed [11:0] s4;
+	wire signed [23:0] m1;
+	wire signed [23:0] m2;
+	
+	assign t1 = ax - cx;
+	assign t2 = by - cy;
+    assign t3 = bx - cx;
+    assign t4 = ay - cy;
+
+	assign m1 = t1 * t2;
+	assign m2 = t3 * t4;
+
+	assign s = m1 * m2;
+
+endmodule
+
+module trian(
+	input [10:0] px,
+	input [10:0] py,
+	input [10:0] p1x,
+	input [10:0] p1y,
+	input [10:0] p2x,
+	input [10:0] p2y,
+	input [10:0] p3x,
+	input [10:0] p3y,
+	output inside
+);
+	wire s1, s2, s3;
+
+	calcula c1(px, py, p1x, p1y, p2x, p2y, s1);
+	calcula c2(px, py, p2x, p2y, p3x, p3y, s2);
+	calcula c3(px, py, p3x, p3y, p1x, p1y, s3);
+
+	assign inside = s1 == s2 & s1 == s3;
+endmodule
