@@ -1,0 +1,29 @@
+#include <stdio.h>
+typedef struct Tponto{
+	int x, y;
+}ponto_s;
+
+double teste(ponto_s a, ponto_s b, ponto_s c){
+	return (b.x - c.x) * (b.y - c.y) - (b.x - c.x) * (a.y - c.y);
+}
+
+int main(){
+	ponto_s a, b, c, p;
+
+	printf("Coordenadas triangulo: \n");
+	scanf("%d", &a.x);
+	scanf("%d", &a.y);
+	scanf("%d", &b.x);
+	scanf("%d", &b.y);
+	scanf("%d", &c.x);
+	scanf("%d", &c.y);
+	printf("Coordenada ponto: \n");
+	scanf("%d", &p.x);
+	scanf("%d", &p.y);
+
+	if(teste(a,b,c) == teste(a,b,p) + teste(a,p,c)+ teste(p,b,c))
+		printf("1\n");
+	else
+		printf("0\n");
+
+}
