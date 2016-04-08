@@ -4,9 +4,8 @@ module calcula(
 	input [10:0] bx,
 	input [10:0] by,
 	input [10:0] cx,
-	input [10:0] cy
-	
-	output s;
+	input [10:0] cy,	
+	output s
 );
 
 	wire signed [11:0] s1;
@@ -16,34 +15,47 @@ module calcula(
 	wire signed [23:0] m1;
 	wire signed [23:0] m2;
 	
-	assign t1 = ax - cx;
-	assign t2 = by - cy;
-    assign t3 = bx - cx;
-    assign t4 = ay - cy;
+	assign t1 = by - cy;
+    assign t2 = bx - cx;
+    assign t3 = ay - cy;
 
 	assign m1 = t1 * t2;
-	assign m2 = t3 * t4;
+	assign m2 = t2 * t3;
 
-	assign s = m1 * m2;
+	assign s = m1 - m2;
 
 endmodule
 
-module trian(
-	input [10:0] px,
-	input [10:0] py,
-	input [10:0] p1x,
-	input [10:0] p1y,
-	input [10:0] p2x,
-	input [10:0] p2y,
-	input [10:0] p3x,
-	input [10:0] p3y,
-	output inside
-);
-	wire s1, s2, s3;
-
+module trian;
+	reg [10:0] px;
+	reg [10:0] py;
+	reg [10:0] p1x;
+	reg [10:0] p1y;
+	reg [10:0] p2x;
+	reg [10:0] p2y;
+	reg [10:0] p3x;
+	reg [10:0] p3y;
+	output inside;
+	wire s, s1, s2, s3;
+	
+	calcula c(p1x, p1y, p2x, p2y, p3x, p3y, s);
 	calcula c1(px, py, p1x, p1y, p2x, p2y, s1);
 	calcula c2(px, py, p2x, p2y, p3x, p3y, s2);
 	calcula c3(px, py, p3x, p3y, p1x, p1y, s3);
+	
+	initial begin
+		$dumpvars(0, c, c1, c2, c3);
 
-	assign inside = s1 == s2 & s1 == s3;
+		#0 
+		p1x <= 3;
+		p1y <= 3;
+		p2x <= 6;
+		p2y <= 4;
+		p3x <= 5;
+		p3y <= 7;
+		px <= 5;
+		py <= 5;
+		#10
+		$finish;
+	end
 endmodule
